@@ -1,0 +1,66 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!---symbols-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"><!-----icons-->
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+   <script>
+             $(document).ready(function(){
+                   display(1);
+             });
+             
+            function display(btnvalue)
+            {
+                ptr = btnvalue;
+                $("tbody").children().remove();
+                $.ajax({
+                 url: "https://reqres.in/api/users?page="+btnvalue,
+                 data: {},
+                 beforeSend: function(){}
+             }).done(function(response) {
+                 var trArr = new Array();
+                 $.each(response.data, function(i, v){
+                     trArr.push('<tr><td>' + v.first_name  + '</td><td>' + v.email + '</td><td><img id="img" src="' 
+                     + v.avatar + '" width="100px" /></td><td><a href="Form.html"><span class="glyphicon glyphicon-pencil"></span></a> &nbsp; <a href="#"><span class="glyphicon glyphicon-trash"></span></a>' + '</td></tr>'  );
+                     
+                 });
+                 $('table#alk-table tbody').append(trArr.join('\n'));
+             });
+            }
+    </script>
+    </head>
+    <body>
+
+
+    </body>
+    <div class="container">
+            <div class="table-wrapper">
+                <div class="table-title">
+                   <h2>User <b>Lists</b></h2>
+                   <button  class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample2">
+                        <span class="glyphicon glyphicon-plus"></span> Add New
+                    </button>
+                        
+                </div>
+                <table id="alk-table" class="table table-bordered" >
+                        <thead><tr><th>Name</th><th>Email_address</th><th>Avatar</th><th>Actions</th></tr></thead>
+                        <tbody></tbody>
+                </table>
+                <div class="container">                
+                        <ul class="pagination" style="padding-left:400px";>
+                          <li><a href="#" onclick="display(ptr-1)"><span class="glyphicon glyphicon-chevron-left"></span></a></li>  
+                          <li class="active" onclick="display(1)"><a href="#">1</a></li>
+                          <li><a href="#" onclick="display(2)">2</a></li>
+                          <li><a href="#" onclick="display(3)">3</a></li>
+                          <li ><a href="#" onclick="display(4)">4</a></li>
+                          <li><a href="#" onclick="display(ptr+1)">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                              </a></li>
+                        </ul>
+                </div> 
+            </div>     
+        </div>
+
+   
+</div>

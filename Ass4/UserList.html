@@ -1,0 +1,142 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+       
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!---symbols-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"><!-----icons-->
+        <link href="./jsonex.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+        <script src="./json.js"></script>
+        <style>
+             #btnm{
+            background-color: aqua;
+            border-radius: 25px;
+            border: 2px solid aqua;
+            float: right;
+            color: white;
+            margin-bottom: 25px;
+          }
+      #form{
+            width: 500px;
+            height: 350px;
+            background-color: rgb(209, 231, 245);
+            margin-top: 30px;
+            border: 10px solid black;
+            padding:30px;
+            display:none;
+            margin-left:300px;
+          }
+
+        </style>
+     
+        <script>
+             $(document).ready(function(){
+                   display(1);
+             });
+             $(document).ready(function(){
+                   $("#btnm").click(function(){
+                   $("#form").show();
+             });
+             });
+            
+ 
+            function display(btnvalue)
+            {
+                ptr = btnvalue;
+                $("tbody").children().remove();
+                $.ajax({
+                 url: "https://reqres.in/api/users?page="+btnvalue,
+                 data: {},
+                 beforeSend: function(){}
+             }).done(function(response) {
+                 var trArr = new Array();
+                 $.each(response.data, function(i, v){
+                     trArr.push('<tr><td>' + v.first_name  + '</td><td>' + v.email + '</td><td><img id="img" src="' 
+                     + v.avatar + '" width="100px" /></td><td><a href="#form" class="btn"><span class="glyphicon glyphicon-pencil"></span></a> &nbsp; <a href="#"><span class="glyphicon glyphicon-trash"></span></a>' + '</td></tr>'  );
+                     
+                 });
+                 $('table#alk-table tbody').append(trArr.join('\n'));
+             });
+            }
+            $(".btn").click(function(){
+        $("#frm").toggle();
+    });
+
+            
+    
+                var name1= document.getElementById('firstname');
+                var email1= document.getElementById('email');
+                var lname =  document.getElementById('lastname');
+                $(document).ready(function(){
+                $(".submit").click(function(){
+                    $("#form").hide();
+                    var list={
+                          
+                        };
+                $.ajax({
+                    url: "https://reqres.in/api/users",
+                    type: 'POST',
+                    data :
+                    {
+                            first_name:name1,
+                            last_name:lname,
+                            email : email1,
+                    },
+                    success: function(response){
+                        console.log(response);
+                        
+                    }
+                });
+                });
+                });
+                
+         </script>
+        </head>
+
+    <body>
+        <div class="container">
+            <div class="table-wrapper">
+                <div class="table-title">
+                   <h2>User <b>Lists</b></h2>
+                   <button  class="btn btn-primary" type="button" id="btnm">
+                        <span class="glyphicon glyphicon-plus"></span> Add New
+                    </button>        
+                </div>
+
+                <table id="alk-table" class="table table-bordered" >
+                        <thead><tr><th>Name</th><th>Email_address</th><th>Avatar</th><th>Actions</th></tr></thead>
+                        <tbody></tbody>
+                </table>
+                <div class="container">                
+                        <ul class="pagination" style="padding-left:400px";>
+                          <li><a href="#" onclick="display(ptr-1)"><span class="glyphicon glyphicon-chevron-left"></span></a></li>  
+                          <li class="active" onclick="display(1)"><a href="#">1</a></li>
+                          <li><a href="#" onclick="display(2)">2</a></li>
+                          <li><a href="#" onclick="display(3)">3</a></li>
+                          <li ><a href="#" onclick="display(4)">4</a></li>
+                          <li><a href="#" onclick="display(ptr+1)">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                              </a></li>
+                        </ul>
+                </div> 
+            </div>  
+            
+            <form id="form">
+                <center> <h5><b> User Details</b></h5></center>
+                <div class="form-group">
+                     <label >First Name</label>
+                     <input type="text" class="form-control" id="firstname"  placeholder="Enter fname"> 
+                </div>
+                 <div class="form-group">
+                    <label >Last Name</label>
+                    <input type="text" class="form-control" id="lastname"  placeholder="Enter lname"> 
+                </div>
+                <div class="form-group">
+                    <label >Email</label>
+                    <input type="text" class="form-control" id="email"  placeholder="Enter email"> 
+                </div>
+                <center><button type="submit" class="btn btn-primary submit">Submit</button></center>
+            </form>
+        </div>      
+    </body>
+</html>
